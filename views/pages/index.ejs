@@ -1,0 +1,40 @@
+<%- contentFor('body')%>
+<title>Produtos</title>
+<h1 class="text-center"> Produtos </h1>
+
+<div class="row mx-auto" style="width: 50%;">
+    <% Produtos.map((produto) => { %>
+    <div class="col-md-4 mt-lg-3">
+        <div class="card" style="width: 16rem; height:27rem">
+            <% if (produto.foto) { %>
+            <img src="<%= produto.foto %>" class="card-img mx-auto" alt="<%= produto.nome %>"
+                style="height:10rem; width: 80%">
+            <% } else { %>
+            <img src="/static/uploads/fotopadrao.jpg" class="card-img-top mx-auto" alt="<%= produto.nome %>"
+                style="height:10rem; width: 80%">
+            <% } %>
+            <div class="card-body">
+                <h5 class="card-title"><%= produto.nome %></h5>
+                <p class="card-text"><%= produto.descricao %></p>
+                <% if (produto.em_promocao) { %>
+                <p class="card-text"><strong>Preço:</strong>
+                    <span style="color: red; text-decoration: line-through">R$ <%= produto.preco.toFixed(2) %></span>
+
+                    <span style="color: blue">R$
+                        <%= produto.preco_promocional.toFixed(2) %>
+                    </span>  
+                </p>
+                <% } else { %>
+                <p class="card-text"><strong>Preço:</strong> <span>R$
+                        <%= produto.preco.toFixed(2) %></span></p>
+                <% } %>
+                <p class="card-text"><strong>Tags:</strong>
+                    <%= produto.Tags.map((tag) => { return tag.tag }).join(', ') %></p>
+                <p class="card-text"><strong>Postado em</strong>
+                    <%= new Date(produto.createdAt).toLocaleDateString('pt-BR') %></p>
+                <a href="#" class="btn btn-primary">Comprar</a>
+            </div>
+        </div>
+    </div>
+    <% }); %>
+</div>

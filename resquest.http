@@ -1,0 +1,78 @@
+POST  http://localhost:8080/produtos
+Content-Type: application/json
+
+{
+  "nome": "Littmann",
+  "descricao": "Cor verde e preto",
+  "preco": 24.99,
+  "tags": ["Adulto", "Geração III"]
+}
+
+###
+GET  http://localhost:8080/api/produtos/
+
+###
+PUT http://localhost:8080/produtos/5
+Content-Type: application/json
+
+{
+  "nome": "Littmann",
+  "descricao": "Cor verde e preto",
+  "preco": 946.25,
+  "em_promocao": true,
+  "preco_promocional": 800.00
+}
+
+###
+DELETE  http://localhost:8080/produtos/1
+Content-Type: application/json
+
+###
+
+http://localhost:8080/static/uploads/foto-1680835262329.jpg
+
+###
+GET  http://localhost:8080/tags
+###
+POST  http://localhost:8080/tags
+Content-Type: application/json
+
+{
+  "tag":"Backend"
+}
+
+###
+GET  http://localhost:8080/tags/11
+
+###
+PUT http://localhost:8080/tags/11
+Content-Type: application/json
+
+{
+  "tag":"oi"
+}
+
+###
+DELETE  http://localhost:8080/tags/11
+Content-Type: application/json
+###
+POST  http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "nome": "Cleverton Santos",
+  "email": "clevertonsantoscodev@gmail.com",
+  "password": "123456"
+}
+###
+POST  http://localhost:8080/token
+Content-Type: application/json
+
+{
+  "email":  "clevertonsantoscodev@gmail.com",
+  "password": "123456"
+}
+###
+POST http://localhost:8080/validar 
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tZSI6IkNsZXZlcnRvbiBTYW50b3MiLCJyYW5kb21OdW0iOjAuODQ5NjQ0NDQwMDQ3NzYxLCJpYXQiOjE2ODI1NTY4NzUsImV4cCI6MTY4MjU2MDQ3NX0.He_Wt2Y7p8PrI29WgRepMU69Xcq7whRV0kkuQZVsc4A

@@ -1,0 +1,389 @@
+openapi: '3.0.2'
+info:
+  title: IMD Produtos API 
+  version: '1.0'
+  description: Produtos
+  contact:
+    name: Cleverton Santos
+servers:
+  - url: http://localhost:8080/api
+    description: Servidor de teste
+paths:
+  /produtos/:
+    get:
+      operationId: getProdutos 
+      summary: Obtém todos os produtos
+      tags:
+        - "Produtos"
+      responses:
+        '200':
+          description: Lista de Produtos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  produtos:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/produtos'
+    post:
+      operationId: cadastrarProduto
+      summary: Cadastra um novo produto
+      tags:
+        - "Produtos"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/produtos'
+      responses:
+        '201':
+          description: Produto criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/produtos'
+        
+  /produtos/{id}:
+    get:
+      operationId: getById
+      summary: Obtém um Produtos a partir do id
+      tags:
+        - Produtos
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Retorna um Produtos
+          content:
+            appication/json:
+              schema:
+                type: object
+                properties:
+                  usuario:
+                    type: object
+                    $ref: "#/components/schemas/produtos"
+
+        '400':
+          description: Bad Request
+          content:
+            appication/json:
+              schema: 
+                $ref:  "#/components/schemas/Erro"
+    
+    put:
+      operationId: updateProduto
+      summary: Atualiza um Produto a partir do id
+      tags:
+        - Produtos
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/produtos'
+      responses:
+        '200':
+          description: Produto atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/produtos'
+
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema: 
+                $ref:  "#/components/schemas/Erro"
+    delete:
+      operationId: deleteProduto
+      summary: Remove um Produto a partir do id
+      tags:
+        - Produtos
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '204':
+          description: Produto removido com sucesso
+
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema: 
+                $ref:  "#/components/schemas/Erro"            
+  /produtos/{id}/upload:
+    post:
+      operationId: uploadProduto
+      summary: Faz o upload da foto de um produto existente
+      tags:
+      - Produtos
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: ID do produto
+      requestBody:
+       content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              foto:
+                type: string
+                format: binary
+      responses:
+        '200':
+          description: Foto do produto atualizada com sucesso
+          content:
+           application/json:
+            schema:
+              $ref: '#/components/schemas/produtos'
+        '404':
+         description: Produto não encontrado
+         content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erro"
+        '500':
+          description: Erro ao atualizar produto
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erro"
+   
+  /tags/:
+   get:
+    operationId: getTags
+    summary: Obtém todas as tags
+    tags:
+    - "Tags"
+    responses:
+      '200':
+        description: Lista de tags
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tags:
+                  type: array
+                  description: Lista de tags
+                  items:
+                    type: string
+   post:
+    operationId: createTag
+    summary: Cria uma nova tag
+    tags:
+    - "Tags"
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/tags"
+    responses:
+      '201':
+        description: Tag criada com sucesso
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/tags"
+  /tags/{id}:            
+   put:
+    operationId: updateTags
+    summary: Atualiza uma tag existente
+    tags:
+    - "Tags"
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/tags"
+    responses:
+      '204':
+        description: Tag atualizada com sucesso
+  /tag/{id}:
+    parameters:
+    - in: path
+      name: tagId
+      required: true
+      schema:
+        type: integer
+      description: ID da tag
+    get:
+      operationId: getTagById
+      summary: Obtém uma tag por ID
+      tags:
+      - "Tags"
+      responses:
+        '200':
+          description: Tag encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/tags"
+    delete:
+      operationId: deleteTagById
+      summary: Exclui uma tag por ID
+      tags:
+      - "Tags"
+      responses:
+        '204':
+          description: Tag excluída com sucesso  
+  /users:
+   post:
+    operationId: createUser
+    summary: Cria um novo usuário
+    tags:
+    - "Users"
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+    responses:
+      '201':
+        description: Usuário criado com sucesso
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+  /token:
+   post:
+    operationId: login
+    summary: Gera um token JWT a partir de um email e senha válidos
+    tags:
+    - "Auth"
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+            required:
+            - email
+            - password
+    responses:
+      '200':
+        description: Token gerado com sucesso
+        headers:
+          Authorization:
+            description: Bearer token
+            schema:
+              type: string
+            example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+  /validar:
+    post:
+      operationId: me
+      summary: Valida um token JWT
+      tags:
+      - "Auth"
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          description: Token validado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                  name:
+                    type: string
+                required:
+                - email
+                - name
+   
+              
+components:
+  schemas:
+    produtos:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID do produto
+        nome:
+          type: string
+          description: Nome do produto
+        descricao:
+          type: string
+          description: Descrição do produto  
+        preco:
+          type: number
+          format: decimal
+          description: Preço do produto
+        foto:
+          type: string
+          description: Foto do produto
+        em-promocao:
+          type: boolean
+          format: boolean
+          description: sim ou não 
+        preco_promocional:
+          type: number
+          format: decimal
+          description: Preço da promoção do produto
+        tags:
+          type: array
+          items:
+            type: string
+          description: tags para o relacionamento muito para muitos []  
+    tags:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID do TAG
+        tag:
+          type: string
+          description: tag 
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+      required:
+        - name
+        - email           
+    Erro:
+      type: object
+      properties:
+        msg:
+          type: string
+          description: Mensagem de erro
+          example: Produto não encontrado!             
+  
