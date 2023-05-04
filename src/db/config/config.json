@@ -15,10 +15,17 @@
     "dialect": "mysql"
   },
   "production": {
+    "use_env_variable": "DATABASE_URL",
     "username": "root",
-    "password": "cs8862",
-    "database": "imd_b",
+    "password": "changeme",
+    "database": "imd",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   }
 }
