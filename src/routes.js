@@ -29,8 +29,14 @@ routes.delete('/tags/:id', TagsController.delete);
 
 routes.get('/produtos-views', ViewsProdutosController.getAll);
 
+
 routes.post('/users', ValidadeUsers, UsersController.create);
 routes.post('/token', ValidadeLogin, AuthController.login);
 routes.post('/validar', ValiddeToken, AuthController.me);
+routes.get('/api/produtos', ValiddeToken,  ProdutoController.getAll);
+routes.post('/api/produtos', ValiddeToken, ValidateProduto, ProdutoController.create);
+routes.put('/api/produtos/:id',ValiddeToken, ValidateProduto, ProdutoController.update);
+routes.get('/api/produtos/:id', ValiddeToken, ProdutoController.getOne);
+routes.delete('/api/produtos/:id', ValiddeToken, ProdutoController.delete);
 
 module.exports = routes;
